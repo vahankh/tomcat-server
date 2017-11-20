@@ -17,16 +17,17 @@ RUN \
   rm -R $CATALINA_HOME/webapps/* && \
   addgroup -gid 900 tomcat && \
   adduser --home $CATALINA_HOME -uid 900 -ingroup tomcat --shell /bin/bash --system --no-create-home --disabled-login --disabled-password tomcat && \
-  chown -R tomcat.tomcat $CATALINA_HOME && \
   chmod -R 0550 $CATALINA_HOME && \
-  chmod 0400 $CATALINA_HOME/conf/* && \
-  chmod -R 0700 $CATALINA_HOME/logs
+  chmod 0400 $CATALINA_HOME/conf/* 
 
 # Problem writing into temp folder. While couldn't find the issue re-creating it solves the problem
 RUN \
   rm -R -f $CATALINA_HOME/temp && \
+  rm -R -f $CATALINA_HOME/logs && \
   mkdir $CATALINA_HOME/temp && \
-  chown -R tomcat.tomcat $CATALINA_HOME/temp
+  mkdir $CATALINA_HOME/logs && \
+  chmod -R 0700 $CATALINA_HOME/logs && \
+  chown -R tomcat.tomcat $CATALINA_HOME
 
 # Preparing webapps directory
 RUN \
